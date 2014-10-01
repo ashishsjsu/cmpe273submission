@@ -1,0 +1,38 @@
+package hello
+
+import javax.validation.constraints.NotNull
+import scala.reflect.{BeanProperty, BooleanBeanProperty}
+//remove if not needed
+import scala.collection.JavaConversions._
+
+class User {
+
+  @NotNull
+  @BeanProperty
+  var email: String = _
+
+  private var user_id: Long = _
+
+  @NotNull
+  @BeanProperty
+  var password: String = _
+
+  @BeanProperty
+  var createdAt: String = _
+
+  def getId(): Long = user_id
+
+  def setId(user_id: Long) {
+    this.user_id = user_id
+  }
+
+  override def toString(): String = {
+    "[id=" + user_id + ", email=" + email + ", password=" + 
+      password + 
+      ", createdAt=" + 
+      createdAt.toString + 
+      "]" + 
+      "\n"
+  }
+}
+

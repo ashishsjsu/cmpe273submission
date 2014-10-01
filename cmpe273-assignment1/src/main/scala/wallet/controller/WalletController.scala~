@@ -1,0 +1,42 @@
+package controller
+
+import exoncepti.ParameterMissingException
+import org.joda.time._
+import java.util.concurrent.atomic.AtomicLong
+import javax.validation.Valid
+import org.springframework.validation.BindingResult
+import org.springframework.web.bind.annotation._
+import org.springframework.http.HttpStatus
+import java.util._
+//remove if not needed
+import scala.collection.JavaConversions._
+
+@RestController
+class WalletController {
+
+  var useral: ArrayList[User] = new ArrayList[User]()
+
+  private val counter = new AtomicLong()
+
+  @RequestMapping(value = "/users", method = RequestMethod.POST, headers = "content-type=application/json", consumes = "application/json")
+  @ResponseBody
+  @ResponseStatus(HttpStatus.CREATED)
+  def addUser(@Valid @RequestBody user: User, result: BindingResult): User = {
+    if (result.hasErrors()) {
+      throw new ParameterMissingException(result.toString)
+    } else {
+      val currentTime = new DateTime()
+      println("The current local time is: " + currentTime)
+      val userId = counter.incrementAndGet()
+      user.setId(userId)
+      user.setCreatedAt(currentTime.toString)
+      println(user)
+      useral.add(user)
+      user
+    }
+  }
+
+  @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, consumes = "application/json", headers = "content-type=application/json")
+  def getUser(@PathVariable id: Int): User = useral.get(id)
+}
+
