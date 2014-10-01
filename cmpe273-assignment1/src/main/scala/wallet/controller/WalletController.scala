@@ -116,7 +116,8 @@ class WalletController{
 
 	/****           USER  GET            ********/
 
-@RequestMapping(value = Array("/api/v1/users/{user_id}"), method=Array(RequestMethod.GET))
+
+	@RequestMapping(value = Array("/api/v1/users/{user_id}"), method=Array(RequestMethod.GET))
 	@ResponseBody
 	def getUser(@PathVariable user_id:String, @RequestHeader(value = "If-None-Match", required= false) ETag: String):ResponseEntity[_]={
 	
