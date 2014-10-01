@@ -116,10 +116,9 @@ class WalletController{
 
 	/****           USER  GET            ********/
 
-
-	@RequestMapping(value = Array("/api/v1/users/{user_id}"), method=Array(RequestMethod.GET))
+@RequestMapping(value = Array("/api/v1/users/{user_id}"), method=Array(RequestMethod.GET))
 	@ResponseBody
-	def getUser(@PathVariable user_id:String, @RequestHeader(value = "ETag", required= false) ETag: String):ResponseEntity[_]={
+	def getUser(@PathVariable user_id:String, @RequestHeader(value = "If-None-Match", required= false) ETag: String):ResponseEntity[_]={
 	
 
 		var httpresponseHeader:HttpHeaders = new HttpHeaders
@@ -135,8 +134,7 @@ class WalletController{
 		println("header1 :"+httpresponseHeader.toString())
 		
 		etag = new EntityTag(Integer.toString(user.hashCode()))
-		httpresponseHeader.setETag(etag.toString())
-
+		httpresponseHeader.add("Etag", etag.getValue())
 		println("header2 :"+httpresponseHeader.toString())
 
 		
